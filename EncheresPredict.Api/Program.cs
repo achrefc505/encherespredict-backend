@@ -35,10 +35,16 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 
 // ── Seed DB au démarrage ──────────────────────────────────────
+// Skip si EP_SKIP_SEED=true (utile quand les vraies données arrivent via ETL ep-licitor-scraper)
+var skipSeed = Environment.GetEnvironmentVariable("EP_SKIP_SEED")?.Equals("true", StringComparison.OrdinalIgnoreCase) == true;
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await SeedData.InitializeAsync(db);
+    await db.Database.MigrateAsync();
+    if (!skipSeed)
+    {
+        await SeedData.InitializeAsync(db);
+    }
 }
 
 // ── Middleware ────────────────────────────────────────────────
