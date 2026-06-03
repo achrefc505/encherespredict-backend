@@ -22,7 +22,8 @@ dotnet ef database update --project ../EncheresPredict.Infrastructure
 dotnet run
 ```
 
-- **Swagger** : https://localhost:7xxx/swagger
+- **API** : https://localhost:65302
+- **Swagger** : https://localhost:65302/swagger
 - **CORS** configuré pour http://localhost:4200 (Angular)
 - **Seed automatique** : 20 enchères avec analyses IA, documents et alertes
 
