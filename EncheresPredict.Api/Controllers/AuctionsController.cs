@@ -1,5 +1,6 @@
 using EncheresPredict.Application.Auctions.Commands.CreateAuction;
 using EncheresPredict.Application.Auctions.Queries.GetAuctionById;
+using EncheresPredict.Application.Auctions.Queries.GetAuctionSummary;
 using EncheresPredict.Application.Auctions.Queries.GetAuctions;
 using EncheresPredict.Application.Auctions.Queries.GetDashboardStats;
 using EncheresPredict.Domain.Enums;
@@ -40,6 +41,15 @@ public class AuctionsController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetById(Guid id, CancellationToken ct = default)
     {
         var result = await mediator.Send(new GetAuctionByIdQuery(id), ct);
+        return Ok(result);
+    }
+
+    [HttpGet("{id:guid}/summary")]
+    [ProducesResponseType(typeof(AuctionSummaryDto), 200)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetSummary(Guid id, CancellationToken ct = default)
+    {
+        var result = await mediator.Send(new GetAuctionSummaryQuery(id), ct);
         return Ok(result);
     }
 

@@ -1,6 +1,7 @@
 using EncheresPredict.Application.Common.Interfaces;
 using EncheresPredict.Domain.Repositories;
 using EncheresPredict.Infrastructure.Persistence;
+using EncheresPredict.Infrastructure.Persistence.Readers;
 using EncheresPredict.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<IAuctionRepository, AuctionRepository>();
         services.AddScoped<IAlertRepository, AlertRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+        services.AddScoped<IAuctionSummaryReader, AuctionSummaryReader>();
 
         return services;
     }

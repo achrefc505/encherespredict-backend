@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace EncheresPredictApi.Models;
+namespace EncheresPredict.Infrastructure.Identity;
 
 public class ApplicationUser : IdentityUser
 {

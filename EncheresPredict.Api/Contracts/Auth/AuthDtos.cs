@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EncheresPredictApi.Features.Auth;
+namespace EncheresPredict.Api.Contracts.Auth;
 
 public record RegisterRequest(
     [Required, EmailAddress] string Email,
