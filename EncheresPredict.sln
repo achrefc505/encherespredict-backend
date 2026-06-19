@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.4.11612.150 stable
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Domain", "EncheresPredict.Domain\EncheresPredict.Domain.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 EndProject
@@ -9,6 +9,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Infrastructure", "EncheresPredict.Infrastructure\EncheresPredict.Infrastructure.csproj", "{C3D4E5F6-A7B8-9012-CDEF-123456789012}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Api", "EncheresPredict.Api\EncheresPredict.Api.csproj", "{D4E5F6A7-B8C9-0123-DEF0-234567890123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.UnitTests", "EncheresPredict.UnitTests\EncheresPredict.UnitTests.csproj", "{B954823A-8071-40D0-840F-5E2EFAAA64CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.IntegrationTests", "EncheresPredict.IntegrationTests\EncheresPredict.IntegrationTests.csproj", "{CDF17ABE-DEC6-4721-8301-7EB6693215B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +36,19 @@ Global
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B954823A-8071-40D0-840F-5E2EFAAA64CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B954823A-8071-40D0-840F-5E2EFAAA64CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B954823A-8071-40D0-840F-5E2EFAAA64CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B954823A-8071-40D0-840F-5E2EFAAA64CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF17ABE-DEC6-4721-8301-7EB6693215B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF17ABE-DEC6-4721-8301-7EB6693215B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF17ABE-DEC6-4721-8301-7EB6693215B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF17ABE-DEC6-4721-8301-7EB6693215B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EFFC92A3-21D9-45A6-B537-105A901CC780}
 	EndGlobalSection
 EndGlobal
