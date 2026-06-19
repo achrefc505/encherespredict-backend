@@ -13,7 +13,9 @@ namespace EncheresPredict.Api.Controllers;
 [ApiController]
 [Route("api/auth")]
 public class AuthController(UserManager<ApplicationUser> userManager, IConfiguration config) : ControllerBase
+
 {
+    [AllowAnonymous]
     [HttpPost("register")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
@@ -38,6 +40,7 @@ public class AuthController(UserManager<ApplicationUser> userManager, IConfigura
         return Ok(new { message = "Compte cree. Bienvenue dans la beta !" });
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
