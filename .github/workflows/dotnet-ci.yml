@@ -14,6 +14,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      Jwt__Key: ${{ secrets.JWT_KEY }}
+      Admin__Password: ${{ secrets.ADMIN_PASSWORD }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

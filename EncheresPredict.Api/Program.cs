@@ -69,9 +69,10 @@ builder.Services.AddCors(opt =>
         .WithOrigins(builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200"])
         .AllowAnyHeader()
         .AllowAnyMethod()));
-var jwtKey =
-    builder.Configuration["Jwt:Key"]
-    ?? "SuperSecretKeyForTestsOnly123456789";
+
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Jwt:Key is missing.");
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,12 +109,16 @@ var skipSeed = Environment.GetEnvironmentVariable("EP_SKIP_SEED")?.Equals("true"
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await db.Database.MigrateAsync();
-    await IdentitySeedData.InitializeAsync(scope.ServiceProvider);
 
-    if (!skipSeed)
+    if (!app.Environment.IsEnvironment("Testing"))
     {
-        await SeedData.InitializeAsync(db);
+        await db.Database.MigrateAsync();
+        await IdentitySeedData.InitializeAsync(scope.ServiceProvider);
+
+        if (!skipSeed)
+        {
+            await SeedData.InitializeAsync(db);
+        }
     }
 }
 
