@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11612.150 stable
+VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Domain", "EncheresPredict.Domain\EncheresPredict.Domain.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 EndProject
@@ -9,6 +9,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Infrastructure", "EncheresPredict.Infrastructure\EncheresPredict.Infrastructure.csproj", "{C3D4E5F6-A7B8-9012-CDEF-123456789012}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.Api", "EncheresPredict.Api\EncheresPredict.Api.csproj", "{D4E5F6A7-B8C9-0123-DEF0-234567890123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.UnitTests", "EncheresPredict.UnitTests\EncheresPredict.UnitTests.csproj", "{A7773D41-7486-42E3-B2DF-5352F6D8F427}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncheresPredict.IntegrationTests", "EncheresPredict.IntegrationTests\EncheresPredict.IntegrationTests.csproj", "{C0D9AB90-0339-49BE-BBD3-739125FF4F2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +36,19 @@ Global
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E5F6A7-B8C9-0123-DEF0-234567890123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7773D41-7486-42E3-B2DF-5352F6D8F427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7773D41-7486-42E3-B2DF-5352F6D8F427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7773D41-7486-42E3-B2DF-5352F6D8F427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7773D41-7486-42E3-B2DF-5352F6D8F427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0D9AB90-0339-49BE-BBD3-739125FF4F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D9AB90-0339-49BE-BBD3-739125FF4F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D9AB90-0339-49BE-BBD3-739125FF4F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D9AB90-0339-49BE-BBD3-739125FF4F2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {955CB9C9-8C3A-4F0A-A9D0-F6F99B77D308}
 	EndGlobalSection
 EndGlobal

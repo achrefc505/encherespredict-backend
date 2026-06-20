@@ -70,6 +70,8 @@ builder.Services.AddCors(opt =>
         .AllowAnyHeader()
         .AllowAnyMethod()));
 
+Console.WriteLine(
+    $"JWT KEY = {builder.Configuration["Jwt:Key"]}");
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key is missing.");
 
@@ -93,7 +95,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy =
+        new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+});
 
 var app = builder.Build();
 
@@ -132,3 +140,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+public partial class Program
+{ }

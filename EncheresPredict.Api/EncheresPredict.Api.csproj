@@ -3,6 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>18eaa75b-3ba4-41c5-af3f-a8bec4ce5f5a</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EncheresPredict.Application\EncheresPredict.Application.csproj" />
