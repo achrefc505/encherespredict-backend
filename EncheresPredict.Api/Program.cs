@@ -56,79 +56,122 @@ builder.Services.AddSwaggerGen(c =>
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
             },
             Array.Empty<string>()
         }
     });
 });
 
-// ── CORS pour Angular (localhost:4200) ───────────────────────
+// ── CORS ─────────────────────────────────────────────────────
 builder.Services.AddCors(opt =>
     opt.AddPolicy("Angular", p => p
-        .WithOrigins(builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200"])
+        .WithOrigins(
+            builder.Configuration
+                .GetSection("AllowedOrigins")
+                .Get<string[]>() ?? ["http://localhost:4200"])
         .AllowAnyHeader()
         .AllowAnyMethod()));
+
+Console.WriteLine($"JWT KEY = {builder.Configuration["Jwt:Key"]}");
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key is missing.");
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme =
+        JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        ClockSkew = TimeSpan.FromMinutes(1)
-    };
+    options.TokenValidationParameters =
+        new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(jwtKey)),
+
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy =
+        new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+});
 
 var app = builder.Build();
 
-// ── Seed DB au démarrage ──────────────────────────────────────
-// Skip si EP_SKIP_SEED=true (utile quand les vraies données arrivent via ETL ep-licitor-scraper)
-var skipSeed = Environment.GetEnvironmentVariable("EP_SKIP_SEED")?.Equals("true", StringComparison.OrdinalIgnoreCase) == true;
-using (var scope = app.Services.CreateScope())
+
+// ── Initialisation base de données ───────────────────────────
+
+var skipSeed =
+    Environment.GetEnvironmentVariable("EP_SKIP_SEED")
+        ?.Equals("true", StringComparison.OrdinalIgnoreCase) == true;
+
+if (!skipSeed)
 {
+    using var scope = app.Services.CreateScope();
+
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
     await db.Database.MigrateAsync();
+
     await IdentitySeedData.InitializeAsync(scope.ServiceProvider);
 
-    if (!skipSeed)
-    {
-        await SeedData.InitializeAsync(db);
-    }
+    await SeedData.InitializeAsync(db);
 }
 
-// ── Middleware ────────────────────────────────────────────────
+
+// ── Middleware ───────────────────────────────────────────────
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Enchères Predict API v1");
+        c.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "Enchères Predict API v1");
+
         c.RoutePrefix = "swagger";
     });
 }
 
 app.UseCors("Angular");
+
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+}
