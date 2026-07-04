@@ -6,6 +6,12 @@
     <UserSecretsId>cb6bc24b-c9bd-4b27-b02d-5d2b2526704b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Contracts\NewFolder1\**" />
+    <Content Remove="Contracts\NewFolder1\**" />
+    <EmbeddedResource Remove="Contracts\NewFolder1\**" />
+    <None Remove="Contracts\NewFolder1\**" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EncheresPredict.Application\EncheresPredict.Application.csproj" />
     <ProjectReference Include="..\EncheresPredict.Infrastructure\EncheresPredict.Infrastructure.csproj" />
   </ItemGroup>

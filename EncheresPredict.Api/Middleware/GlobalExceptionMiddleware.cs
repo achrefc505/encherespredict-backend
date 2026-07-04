@@ -26,13 +26,15 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
         var (status, message) = ex switch
         {
             AuctionNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
-            KeyNotFoundException     => (StatusCodes.Status404NotFound, ex.Message),
-            ValidationException ve  => (StatusCodes.Status422UnprocessableEntity,
+            KeyNotFoundException => (StatusCodes.Status404NotFound, ex.Message),
+            ValidationException ve => (StatusCodes.Status422UnprocessableEntity,
                 string.Join("; ", ve.Errors.Select(e => e.ErrorMessage))),
-            ArgumentException       => (StatusCodes.Status400BadRequest, ex.Message),
-            _                       => (StatusCodes.Status500InternalServerError, "Une erreur interne est survenue.")
-        };
+            ArgumentException => (StatusCodes.Status400BadRequest, ex.Message),
+            InsufficientCreditsException => (StatusCodes.Status409Conflict, "INSUFFICIENT_CREDITS"),
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, ex.Message),
 
+            _ => (StatusCodes.Status500InternalServerError, ex.ToString())
+        };
         ctx.Response.StatusCode = status;
         await ctx.Response.WriteAsync(JsonSerializer.Serialize(new { erreur = message }));
     }
