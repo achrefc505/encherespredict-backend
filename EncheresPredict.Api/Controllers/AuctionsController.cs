@@ -101,22 +101,7 @@ public class AuctionsController(IMediator mediator) : ControllerBase
 
         return Accepted();
     }
-    [HttpPost("callback")]
-    [AllowAnonymous]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Callback(
-    [FromBody] CompleteDocumentSummaryRequest request,
-    CancellationToken ct)
-    {
-        await mediator.Send(
-            new CompleteDocumentSummaryCommand(
-                request.SummaryId,
-                request.SummaryJson),
-            ct);
+    
+   
 
-        return Ok(new
-        {
-            success = true
-        });
-    }
 }

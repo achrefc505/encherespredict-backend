@@ -1,6 +1,7 @@
-using System.Text;
+using EncheresPredict.Api.Filters;
 using EncheresPredict.Api.Middleware;
 using EncheresPredict.Application;
+using EncheresPredict.Application.Common.Configuration;
 using EncheresPredict.Infrastructure;
 using EncheresPredict.Infrastructure.Identity;
 using EncheresPredict.Infrastructure.Persistence;
@@ -8,15 +9,19 @@ using EncheresPredict.Infrastructure.Persistence.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.FileProviders;
+using System.Text;
+using EncheresPredict.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Couches DDD ──────────────────────────────────────────────
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.Configure<InternalApiOptions>(
+    builder.Configuration.GetSection(InternalApiOptions.SectionName));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -32,6 +37,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // ── API ──────────────────────────────────────────────────────
 builder.Services.AddControllers();
+builder.Services.AddScoped<ApiKeyFilter>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>

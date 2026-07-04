@@ -1,8 +1,6 @@
-﻿namespace EncheresPredict.Api.Contracts.Auctions;
+﻿namespace EncheresPredict.Api.Contracts.InternalSummaries;
 
 public sealed class CompleteDocumentSummaryRequest
 {
-    public Guid SummaryId { get; set; }
-
     public string SummaryJson { get; set; } = string.Empty;
 }
