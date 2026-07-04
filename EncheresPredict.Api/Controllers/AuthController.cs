@@ -2,7 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using EncheresPredict.Api.Contracts.Auth;
+using EncheresPredict.Application.Credits.Commands.InitializeCreditAccount;
 using EncheresPredict.Infrastructure.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +14,13 @@ namespace EncheresPredict.Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthController(UserManager<ApplicationUser> userManager, IConfiguration config) : ControllerBase
+public class AuthController(
+    UserManager<ApplicationUser> userManager,
+    IConfiguration config,
+    IMediator mediator) : ControllerBase
+
 {
+    [AllowAnonymous]
     [HttpPost("register")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
@@ -35,9 +42,13 @@ public class AuthController(UserManager<ApplicationUser> userManager, IConfigura
         }
 
         await userManager.AddToRoleAsync(user, "BetaUser");
+
+        await mediator.Send(
+     new InitializeCreditAccountCommand(user.Id));
         return Ok(new { message = "Compte cree. Bienvenue dans la beta !" });
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]

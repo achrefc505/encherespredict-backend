@@ -15,7 +15,12 @@ public sealed class GetAuctionSummaryQueryHandler(IAuctionSummaryReader reader)
         try
         {
             var summary = JsonSerializer.Deserialize<JsonElement>(record.SummaryJson);
-            return new AuctionSummaryDto(record.AuctionId, record.GeneratedAt, record.ModelVersion, summary);
+            return new AuctionSummaryDto(
+    record.AuctionId,
+    record.GeneratedAt,
+    record.ModelVersion,
+    record.Status,
+    summary);
         }
         catch (JsonException ex)
         {

@@ -5,7 +5,9 @@ namespace EncheresPredict.Infrastructure.Persistence.Readers;
 
 public class AuctionSummaryReader(AppDbContext db) : IAuctionSummaryReader
 {
-    public async Task<AuctionSummaryReadDto?> GetLatestAsync(Guid auctionId, CancellationToken ct = default)
+    public async Task<AuctionSummaryReadDto?> GetLatestAsync(
+        Guid auctionId,
+        CancellationToken ct = default)
     {
         return await db.DocumentSummaries
             .AsNoTracking()
@@ -15,6 +17,7 @@ public class AuctionSummaryReader(AppDbContext db) : IAuctionSummaryReader
                 s.AuctionId,
                 s.GeneratedAt,
                 s.ModelVersion,
+                s.Status,
                 s.SummaryJson))
             .FirstOrDefaultAsync(ct);
     }

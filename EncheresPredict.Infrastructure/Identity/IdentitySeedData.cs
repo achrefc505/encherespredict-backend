@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,7 @@ public static class IdentitySeedData
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var logger = services.GetRequiredService<ILogger<ApplicationUser>>();
+        var configuration = services.GetRequiredService<IConfiguration>();
 
         foreach (var role in new[] { "Admin", "BetaUser" })
         {
@@ -22,7 +24,11 @@ public static class IdentitySeedData
         }
 
         const string adminEmail = "admin@encherespredict.fr";
-        const string adminPassword = "Admin@EP2026!";
+
+        var adminPassword =
+            configuration["Admin:Password"]
+            ?? throw new InvalidOperationException(
+                "Admin:Password is missing.");
 
         if (await userManager.FindByEmailAsync(adminEmail) is not null)
         {
@@ -41,14 +47,20 @@ public static class IdentitySeedData
         };
 
         var result = await userManager.CreateAsync(admin, adminPassword);
+
         if (!result.Succeeded)
         {
-            logger.LogError("Admin account creation failed: {Errors}",
+            logger.LogError(
+                "Admin account creation failed: {Errors}",
                 string.Join(", ", result.Errors.Select(e => e.Description)));
+
             return;
         }
 
         await userManager.AddToRoleAsync(admin, "Admin");
-        logger.LogInformation("Admin account created: {Email}", adminEmail);
+
+        logger.LogInformation(
+            "Admin account created: {Email}",
+            adminEmail);
     }
 }
